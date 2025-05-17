@@ -72,7 +72,7 @@ public class Cryptor {
 	}
 
 	let cleartextChunkSize = 32 * 1024
-	var ciphertextChunkSize: Int {
+	public var ciphertextChunkSize: Int {
 		return contentCryptor.nonceLen + cleartextChunkSize + contentCryptor.tagLen
 	}
 

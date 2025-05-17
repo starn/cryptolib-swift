@@ -8,8 +8,8 @@
 import Foundation
 
 public extension Cryptor {
-	func decryptInputStream(wrapped: InputStream) -> InputStream {
-		return CryptorDecryptInputStream(cryptor: self, wrapped: wrapped)
+	func decryptInputStream(wrapped: InputStream, ciphertextHeader: [UInt8], chunkNumber: UInt64) -> InputStream {
+        return CryptorDecryptInputStream(cryptor: self, ciphertextHeader: ciphertextHeader, chunkNumber: chunkNumber, wrapped: wrapped)
 	}
 
 	func encryptOutputStream(wrapped: OutputStream) -> OutputStream {
@@ -24,10 +24,13 @@ final class CryptorDecryptInputStream: InputStream {
 	private var header: FileHeader!
 	private var chunkNumber: UInt64 = 0
 	private var cleartextChunk: [UInt8] = []
+	private var ciphertextHeader: [UInt8] = []
 
-	init(cryptor: Cryptor, wrapped: InputStream) {
+	init(cryptor: Cryptor, ciphertextHeader: [UInt8], chunkNumber: UInt64, wrapped: InputStream) {
 		self.cryptor = cryptor
 		self.wrapped = wrapped
+		self.chunkNumber = chunkNumber
+		self.ciphertextHeader = ciphertextHeader
 		super.init()
 	}
 
@@ -84,11 +87,13 @@ final class CryptorDecryptInputStream: InputStream {
 		precondition(cleartextChunk.isEmpty)
 
 		if header == nil {
+		/*
 			let ciphertextHeader = try wrapped.readFullyIntoArray(maxLength: cryptor.fileHeaderSize)
 			guard ciphertextHeader.count == cryptor.fileHeaderSize else {
 				throw CryptoError.ioError
 			}
-
+		*/
+			let ciphertextHeader = self.ciphertextHeader
 			header = try cryptor.decryptHeader(ciphertextHeader)
 		}
 
