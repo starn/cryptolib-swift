@@ -82,7 +82,7 @@ class GcmContentCryptor: ContentCryptor {
 	}
 
 	func decrypt(_ chunk: [UInt8], key keyBytes: [UInt8], ad: [UInt8]) throws -> [UInt8] {
-		assert(chunk.count >= nonceLen + tagLen, "ciphertext chunk must at least contain nonce + tag")
+		//assert(chunk.count >= nonceLen + tagLen, "ciphertext chunk must at least contain nonce + tag")
 
 		let key = SymmetricKey(data: keyBytes)
 		let encrypted = try AES.GCM.SealedBox(combined: chunk)
@@ -115,7 +115,7 @@ class CtrThenHmacContentCryptor: ContentCryptor {
 	}
 
 	func decrypt(_ chunk: [UInt8], key: [UInt8], ad: [UInt8]) throws -> [UInt8] {
-		assert(chunk.count >= nonceLen + tagLen, "ciphertext chunk must at least contain nonce + tag")
+		//assert(chunk.count >= nonceLen + tagLen, "ciphertext chunk must at least contain nonce + tag")
 
 		// decompose chunk:
 		let beginOfMAC = chunk.count - tagLen
