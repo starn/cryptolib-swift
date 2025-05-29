@@ -65,7 +65,7 @@ public class AesSiv {
 		return try AesCtr.compute(key: key, iv: ctr, data: plaintext)
 	}
 
-	static func s2v(macKey: [UInt8], plaintext: [UInt8], ad: [[UInt8]]) throws -> [UInt8] {
+	public static func s2v(macKey: [UInt8], plaintext: [UInt8], ad: [[UInt8]]) throws -> [UInt8] {
 		// Maximum permitted AD length is the block size in bits - 2
 		assert(ad.count <= 126, "too many ad")
 
