@@ -9,7 +9,7 @@
 import CommonCrypto
 import Foundation
 
-class AesSiv {
+public class AesSiv {
 	static let cryptoSupport = CryptoSupport()
 	static let zero = [UInt8](repeating: 0x00, count: 16)
 	static let dblConst: UInt8 = 0x87
@@ -23,7 +23,7 @@ class AesSiv {
 	 - Parameter ad: Associated data, which gets authenticated but not encrypted.
 	 - Returns: IV + Ciphertext as a concatenated byte array.
 	 */
-	static func encrypt(aesKey: [UInt8], macKey: [UInt8], plaintext: [UInt8], ad: [UInt8]...) throws -> [UInt8] {
+	public static func encrypt(aesKey: [UInt8], macKey: [UInt8], plaintext: [UInt8], ad: [UInt8]...) throws -> [UInt8] {
 		guard plaintext.count <= UInt32.max - 16 else {
 			throw CryptoError.invalidParameter("plaintext must not be longer than 2^32 - 16 bytes")
 		}
@@ -41,7 +41,7 @@ class AesSiv {
 	 - Parameter ad: Associated data, which needs to be authenticated during decryption.
 	 - Returns: Plaintext byte array.
 	 */
-	static func decrypt(aesKey: [UInt8], macKey: [UInt8], ciphertext: [UInt8], ad: [UInt8]...) throws -> [UInt8] {
+	public static func decrypt(aesKey: [UInt8], macKey: [UInt8], ciphertext: [UInt8], ad: [UInt8]...) throws -> [UInt8] {
 		guard ciphertext.count >= 16 else {
 			throw CryptoError.invalidParameter("ciphertext must be at least 16 bytes")
 		}
