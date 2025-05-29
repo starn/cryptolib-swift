@@ -57,7 +57,7 @@ public class AesSiv {
 
 	// MARK: - Internal
 
-	static func ctr(aesKey key: [UInt8], iv: [UInt8], plaintext: [UInt8]) throws -> [UInt8] {
+	public static func ctr(aesKey key: [UInt8], iv: [UInt8], plaintext: [UInt8]) throws -> [UInt8] {
 		// clear out the 31st and 63rd bit (see https://tools.ietf.org/html/rfc5297#section-2.5)
 		var ctr = iv
 		ctr[8] &= 0x7F
